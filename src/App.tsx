@@ -33,7 +33,7 @@ const App = (): JSX.Element => {
         </Grid>
         <Grid item xs={12}>
           <Typography variant="h5">
-            Bad poetry made from the most commonly used passwords.
+            Bad poetry made from the most commonly used online passwords
           </Typography>
         </Grid>
         <Grid item sm={2}>
