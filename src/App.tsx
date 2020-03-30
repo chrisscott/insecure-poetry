@@ -47,7 +47,7 @@ const App = (): JSX.Element => {
           </Button>
         </Grid>
         <Grid item sm={10}>
-          <Typography>(other styles coming soon...maybe)</Typography>
+          <Typography><i>(other styles coming soon...maybe)</i></Typography>
         </Grid>
         <Grid item xs={12}>
           {haiku && (
@@ -72,7 +72,7 @@ const App = (): JSX.Element => {
             Passwords sourced from Daniel Miessler's
             {' '}
             <a href="https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10k-most-common.txt">SecLists</a>
-            . Broken Pencil by Felipe Alvarado from the Noun Project
+            . Broken Pencil by Felipe Alvarado from the Noun Project.
           </small>
         </Grid>
       </Grid>
