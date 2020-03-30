@@ -22,7 +22,7 @@ const App = (): JSX.Element => {
           >
             Insecure Poetry
             {' '}
-            <SvgIcon fontSize="inherit">
+            <SvgIcon fontSize="inherit" style={{ fontSize: '0.8em' }}>
               <path d="M4.35 7.05C4.41 6.41 4.68 5.71 5.17 5.09C5.66 4.47 6.27 4.03 6.87 3.82C6.8 3.77 6.28 3.36 6.21 3.31C5.61 3.52 5 3.95 4.51 4.57C4.03 5.2 3.75 5.89 3.69 6.53C3.82 6.63 4.28 6.99 4.35 7.05Z" id="b2kS8G1tYy" />
               <path d="M0.8 3.39C0.74 3.85 0.98 4.4 1.35 4.69C1.51 4.81 2.76 5.8 2.92 5.92C2.98 5.29 3.25 4.59 3.74 3.97C4.23 3.34 4.84 2.91 5.44 2.7C5.28 2.58 4.03 1.59 3.87 1.46C3.5 1.17 2.9 1.07 2.46 1.25C2.32 1.31 1.78 1.49 1.33 2.07C0.88 2.64 0.82 3.23 0.8 3.39Z" id="e9hDBo8iR" />
               <path d="M23.69 24.06C23.5 22.91 23.39 22.26 23.37 22.13C23.06 22.26 22.76 22.44 22.47 22.66C22.23 22.84 22.02 23.03 21.84 23.24C22.08 23.35 22.7 23.63 23.69 24.06Z" id="cBV9CfCsb" />
@@ -66,6 +66,9 @@ const App = (): JSX.Element => {
             </CardContent>
           </Card>
           )}
+        </Grid>
+        <Grid item xs={12}>
+          <small>Broken Pencil by Felipe Alvarado from the Noun Project</small>
         </Grid>
       </Grid>
     </Container>
