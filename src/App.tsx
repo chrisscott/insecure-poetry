@@ -7,7 +7,7 @@ import {
 import getHaiku from './generator/haiku';
 
 const App = (): JSX.Element => {
-  const [haiku, setHaiku] = useState();
+  const [haiku, setHaiku] = useState(getHaiku());
   const doHaiku = (): void => {
     setHaiku(getHaiku());
     // console.log(haiku);
@@ -17,7 +17,7 @@ const App = (): JSX.Element => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Typography
-            variant="h1"
+            variant="h2"
             style={{ fontFamily: 'Permanent Marker' }}
           >
             Insecure Poetry
@@ -31,24 +31,13 @@ const App = (): JSX.Element => {
             </SvgIcon>
           </Typography>
         </Grid>
+
         <Grid item xs={12}>
           <Typography variant="h5">
             Bad poetry made from the most commonly used online passwords
           </Typography>
         </Grid>
-        <Grid item sm={2}>
-          <Button
-            style={{ backgroundColor: '#000' }}
-            variant="contained"
-            color="primary"
-            onClick={(): void => doHaiku()}
-          >
-            Get A Haiku
-          </Button>
-        </Grid>
-        <Grid item sm={10}>
-          <Typography><i>(other styles coming soon...maybe)</i></Typography>
-        </Grid>
+
         <Grid item xs={12}>
           {haiku && (
           <Card>
@@ -56,7 +45,7 @@ const App = (): JSX.Element => {
               {haiku.map((line: string | number | undefined) => (
                 <Typography
                   style={{
-                    fontFamily: 'Reenie Beanie', fontSize: '3em', lineHeight: '1', marginBottom: '0.3em',
+                    fontFamily: 'Caveat', fontSize: '2.5em', lineHeight: '1', marginBottom: '0.3em',
                   }}
                   key={line}
                 >
@@ -67,12 +56,31 @@ const App = (): JSX.Element => {
           </Card>
           )}
         </Grid>
+
+        <Grid item sm={3}>
+          <Button
+            style={{ backgroundColor: '#000' }}
+            variant="contained"
+            color="primary"
+            onClick={(): void => doHaiku()}
+          >
+            Get a New Haiku
+          </Button>
+        </Grid>
+
+        <Grid item sm={10}>
+          <Typography><i>(other styles coming soon...maybe)</i></Typography>
+        </Grid>
+
         <Grid item xs={12}>
           <small>
             Passwords sourced from Daniel Miessler's
             {' '}
             <a href="https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10k-most-common.txt">SecLists</a>
-            . Broken Pencil by Felipe Alvarado from the Noun Project.
+            . Broken Pencil by Felipe Alvarado from the Noun Project. Produced by
+            {' '}
+            <a href="https://iamzed.com/">Chris Scott</a>
+            .
           </small>
         </Grid>
       </Grid>
