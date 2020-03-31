@@ -1,18 +1,27 @@
 import React, { useState } from 'react';
-
 import {
   Typography, Container, Grid, Button, Card, CardContent, SvgIcon,
 } from '@material-ui/core';
 
-import getHaiku from './generator/haiku';
+import getHaiku from '../generator/haiku';
 
-const App = (): JSX.Element => {
-  const [haiku, setHaiku] = useState(getHaiku());
+const Main = ({poem}): JSX.Element => {
+  console.log('poem', poem);
+  if (!poem) {
+    poem = getHaiku();
+  } else {
+    poem = [poem];
+  }
+  console.log('newpoem', poem);
+  // console.log('mainpoem', poem);
+  const [haiku, setHaiku] = useState(poem);
   const doHaiku = (): void => {
     setHaiku(getHaiku());
-    // console.log(haiku);
   };
+  // console.log('haiku', haiku);
+
   return (
+  <>
     <Container maxWidth="md">
       <Grid container spacing={3}>
         <Grid item xs={12}>
@@ -73,6 +82,7 @@ const App = (): JSX.Element => {
         </Grid>
 
         <Grid item xs={12}>
+          <Typography>
           <small>
             Passwords sourced from Daniel Miessler's
             {' '}
@@ -82,10 +92,10 @@ const App = (): JSX.Element => {
             <a href="https://iamzed.com/">Chris Scott</a>
             .
           </small>
+          </Typography>
         </Grid>
       </Grid>
     </Container>
-  );
-};
+    </>)};
 
-export default App;
+export default Main;

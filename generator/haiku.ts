@@ -38,15 +38,29 @@ const getLine = (syllables: number): Array<string> => {
   return words;
 };
 
-const getHaiku = (): Array<string> => {
-  const lines = [getLine(5), getLine(7), getLine(5)];
+const getHaiku = (syllablesPerLine = [5, 7, 5]) => {
+  const lines = [];
+  const shareData = {};
+  syllablesPerLine.forEach((syllable) => {
+    const line = getLine(syllable);
+    lines.push(line);
+    const wordOrder = [];
+    line.forEach((word) => {
+      console.log(syllable, dict[syllable]);
+      console.log('word', word);
+      wordOrder.push(dict[syllable].indexOf(word));
+    });
+    // console.log({syllable, line, wordOrder});
+  });
   const formattedLines: string[] = [];
   lines.forEach((line) => {
     const words = line.join(' ');
     formattedLines.push(words.charAt(0).toUpperCase() + words.slice(1));
   });
   // console.log({ formattedLines });
-  return formattedLines;
+
+
+  return {formattedLines, shareData};
 };
 
 export default getHaiku;
