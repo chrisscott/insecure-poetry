@@ -3,9 +3,10 @@ import {
   Container, Grid, Button, Card, CardContent,
   Link, Typography, Snackbar, IconButton,
 } from '@material-ui/core';
-
 import Alert from '@material-ui/lab/Alert';
 import { Twitter, Link as LinkIcon } from '@material-ui/icons';
+import Router from 'next/router';
+
 import Header from './Header';
 
 import { getHaiku, getShareSlug } from '../generator/haiku';
@@ -20,7 +21,7 @@ const HaikuPage = ({ haiku }: HaikuPageProps): JSX.Element => {
   const [twitterShareUrl, setTwitterShareUrl] = useState<string>();
 
   const getTwitterShareUrl = (haiku: Haiku): string => {
-    const shareUrl = `https://twitter.com/intent/tweet?hashtags=insecurepoetry&original_referer=${window.location.href}&ref_src=twsrc%5Etfw&related=insecurepoetry&text=${encodeURIComponent(haiku.join('\n'))}&tw_p=tweetbutton&url=${window.location.href}&via=insecurepoetry`;
+    const shareUrl = `https://twitter.com/intent/tweet?hashtags=insecurepoetry&original_referer=${window.location.href}&ref_src=twsrc%5Etfw&related=insecurepoetry&text=${encodeURIComponent(`${haiku.join('\n')}\n`)}&tw_p=tweetbutton&url=${window.location.href}&via=insecurepoetry`;
     return shareUrl;
   };
 
@@ -46,9 +47,7 @@ const HaikuPage = ({ haiku }: HaikuPageProps): JSX.Element => {
   const doHaiku = (): void => {
     const newHaiku = getHaiku();
     const slug = getShareSlug(newHaiku);
-    if (typeof window !== 'undefined') {
-      window.location.replace(`/h/${slug}`);
-    }
+    Router.push('/h/[slug]', `/h/${slug}`);
   };
 
   useEffect(() => {

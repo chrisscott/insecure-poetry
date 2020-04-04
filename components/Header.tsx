@@ -2,12 +2,17 @@ import React from 'react';
 import {
   Grid, Typography, SvgIcon, Link,
 } from '@material-ui/core';
+import Router from 'next/router';
 
 const Header = (): JSX.Element => (
   <>
     <Grid item xs={12}>
       <Link
         href="/"
+        onClick={(e: React.MouseEvent): void => {
+          e.preventDefault();
+          Router.push('/');
+        }}
         color="inherit"
         style={{
           textDecoration: 'none',

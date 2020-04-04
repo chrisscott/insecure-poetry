@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Container, Grid, Button,
 } from '@material-ui/core';
+import Router from 'next/router';
 
 import Header from './Header';
 import Footer from './Footer';
@@ -12,9 +13,7 @@ const Welcome = (): JSX.Element => {
   const doHaiku = (): void => {
     const haiku = getHaiku();
     const slug = getShareSlug(haiku);
-    if (typeof window !== 'undefined') {
-      window.location.replace(`/h/${slug}`);
-    }
+    Router.push('/h/[slug]', `/h/${slug}`);
   };
   return (
     <Container maxWidth="md">
