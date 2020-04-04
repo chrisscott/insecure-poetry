@@ -1,3 +1,4 @@
+import zlib from 'zlib';
 import dict from './passwords.json';
 
 const getWord = (syllables: number): string => {
@@ -16,51 +17,65 @@ const getRandomInt = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const getLine = (syllables: number): Array<string> => {
+const getLine = (syllables: number) => {
   let syllablesAdded = 0;
-  const words = [];
+  const line = [];
 
   while (syllablesAdded < syllables) {
     const syllableRand = getRandomInt(1, Math.min(syllables - syllablesAdded, 5));
     syllablesAdded += syllableRand;
     let word = getWord(syllableRand);
-    // let counter = 0; // shouldn't be needed but just in case
-    // while (!word && counter < 200) {
-    //   console.log('word', syllableRand, word);
-    //   word = getWord(syllableRand);
-    //   counter ++;
-    // }
     if (!word) {
       word = getWord(syllableRand);
     }
-    words.push(word);
+    line.push({syllables: syllableRand, word});
   }
-  return words;
+  return line;
 };
 
-const getHaiku = (syllablesPerLine = [5, 7, 5]) => {
-  const lines = [];
-  const shareData = {};
-  syllablesPerLine.forEach((syllable) => {
-    const line = getLine(syllable);
-    lines.push(line);
-    const wordOrder = [];
-    line.forEach((word) => {
-      console.log(syllable, dict[syllable]);
-      console.log('word', word);
-      wordOrder.push(dict[syllable].indexOf(word));
+const getHaiku = (lineShape = [5, 7, 5]): string[] => {
+  const textLines = [];
+  const shareLines = [];
+  lineShape.forEach((lineSyllables) => {
+    const line = getLine(lineSyllables);
+    const textWords = [];
+    const shareWords = []
+    // console.log({syllable, line});
+    // linesText.push(word);
+    // shareData[syllables] = [];
+    line.forEach(({syllables, word}) => {
+      // console.log(syllable);
+      // console.log('word', word);
+      // linesText.push(word);
+      textWords.push(word);
+      shareWords.push([syllables, dict[syllables].indexOf(word)]);
     });
-    // console.log({syllable, line, wordOrder});
+    textLines.push(textWords);
+    shareLines.push(shareWords);
   });
+  // console.log({textLines, shareLines});
   const formattedLines: string[] = [];
-  lines.forEach((line) => {
+  textLines.forEach((line) => {
     const words = line.join(' ');
     formattedLines.push(words.charAt(0).toUpperCase() + words.slice(1));
   });
   // console.log({ formattedLines });
 
 
-  return {formattedLines, shareData};
+  return formattedLines;
 };
 
-export default getHaiku;
+const getShareSlug = (haiku) => {
+  const compressed = zlib.deflateSync(haiku).toString('base64');
+  const path = encodeURIComponent(compressed);
+  // const url = (process.env.NODE_ENV === 'development') ? `http://localhost:3000/h/${path}` : `http://localhost:3000/h/${path}`;
+  return path;
+}
+
+const getHaikuFromShareSlug = (slug) => {
+  const decompressed = zlib.inflateSync(Buffer.from(slug, 'base64')).toString();
+  // console.log('decomp', decompressed);
+  return decompressed.split("\n");
+}
+
+export {getHaiku, getShareSlug, getHaikuFromShareSlug};
