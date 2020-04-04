@@ -12,7 +12,7 @@ const Welcome = (): JSX.Element => {
   const doHaiku = (): void => {
     // setHaiku(getHaiku());
     const haiku = getHaiku();
-    const slug = getShareSlug(haiku.join('\n'));
+    const slug = getShareSlug(haiku);
     if (typeof window !== 'undefined') {
       // console.log(window.location);
       window.location.replace(`/h/${slug}`);

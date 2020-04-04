@@ -6,10 +6,18 @@ import Theme from '../../components/Theme';
 import { getHaikuFromShareSlug } from '../../generator/haiku';
 import Haiku from '../../components/Haiku';
 
-const App = ({ slug }): JSX.Element => {
+interface AppProps {
+  slug: string;
+}
+
+interface SspProps {
+  params: {slug: string};
+}
+
+const App = ({ slug }: AppProps): JSX.Element => {
   // console.log('pageslug', slug);
   const haiku = getHaikuFromShareSlug(slug);
-  const haikuText = haiku.join("\n");
+  const haikuText = haiku.join('\n');
 
   return (
     <>
@@ -21,7 +29,7 @@ const App = ({ slug }): JSX.Element => {
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker|Caveat|Roboto:300,400,500,700&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
         <meta property="og:site_name" content="Insecure Poetry" />
-        <meta property="og:description" content={haikuText}/>
+        <meta property="og:description" content={haikuText} />
       </Head>
       <Theme>
         <Haiku haiku={haiku} />
@@ -30,8 +38,8 @@ const App = ({ slug }): JSX.Element => {
   );
 };
 
-export async function getServerSideProps({ params: { slug } }) {
-  console.log('getssp', slug);
+export async function getServerSideProps({ params: { slug } }: SspProps): Promise<any> {
+  // console.log('getssp', slug);
   return { props: { slug } };
 }
 

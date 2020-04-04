@@ -5,7 +5,7 @@ const Footer = (): JSX.Element => (
   <Grid item xs={12}>
     <Typography>
       <small>
-        Passwords sourced from Daniel Miessler's
+        Passwords sourced from Daniel Miessler&apos;s
         {' '}
         <a href="https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10k-most-common.txt">SecLists</a>
         . Broken Pencil by Felipe Alvarado from the Noun Project. Produced by

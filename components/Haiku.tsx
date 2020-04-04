@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
 import {
   Container, Grid, Button, Card, CardContent, Typography, Snackbar, IconButton,
@@ -8,8 +9,13 @@ import { Twitter, Link } from '@material-ui/icons';
 import Header from './Header';
 
 import { getHaiku, getShareSlug } from '../generator/haiku';
+import type { Haiku } from '../generator/haiku';
 
-const Haiku = ({ haiku }): JSX.Element => {
+interface HaikuPageProps {
+  haiku: Haiku;
+}
+
+const HaikuPage = ({ haiku }: HaikuPageProps): JSX.Element => {
   const [alertOpen, setAlertOpen] = useState(false);
   const handleClose = (event?: React.SyntheticEvent, reason?: string): void => {
     if (reason === 'clickaway') {
@@ -21,8 +27,10 @@ const Haiku = ({ haiku }): JSX.Element => {
 
   const copyShareUrl = (): void => {
     document.addEventListener('copy', (e) => {
-      e.clipboardData.setData('text/plain', window.location.href);
-      e.preventDefault();
+      if (e.clipboardData) {
+        e.clipboardData.setData('text/plain', window.location.href);
+        e.preventDefault();
+      }
     });
     document.execCommand('copy');
     setAlertOpen(true);
@@ -34,7 +42,7 @@ const Haiku = ({ haiku }): JSX.Element => {
   const doHaiku = (): void => {
     const newHaiku = getHaiku();
     // setHaiku(haiku);
-    const slug = getShareSlug(newHaiku.join('\n'));
+    const slug = getShareSlug(newHaiku); // .join('\n'));
     if (typeof window !== 'undefined') {
       // console.log(window.location);
       window.location.replace(`/h/${slug}`);
@@ -103,4 +111,4 @@ const Haiku = ({ haiku }): JSX.Element => {
   );
 };
 
-export default Haiku;
+export default HaikuPage;
