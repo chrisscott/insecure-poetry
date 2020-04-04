@@ -16,7 +16,7 @@ interface SspProps {
 
 const App = ({ slug }: AppProps): JSX.Element => {
   const haiku = getHaikuFromShareSlug(slug);
-  const haikuText = haiku.join('\n');
+  const haikuText = haiku.join(' / ');
 
   return (
     <>
