@@ -15,7 +15,6 @@ interface SspProps {
 }
 
 const App = ({ slug }: AppProps): JSX.Element => {
-  // console.log('pageslug', slug);
   const haiku = getHaikuFromShareSlug(slug);
   const haikuText = haiku.join('\n');
 
@@ -39,7 +38,6 @@ const App = ({ slug }: AppProps): JSX.Element => {
 };
 
 export async function getServerSideProps({ params: { slug } }: SspProps): Promise<any> {
-  // console.log('getssp', slug);
   return { props: { slug } };
 }
 

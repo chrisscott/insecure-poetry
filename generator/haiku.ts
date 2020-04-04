@@ -41,12 +41,9 @@ const getHaiku = (lineShape = [5, 7, 5]): Haiku => {
     const line = getLine(lineSyllables);
     const textWords: string[] = [];
     // const shareWords = []
-    // console.log({syllable, line});
     // linesText.push(word);
     // shareData[syllables] = [];
     line.forEach(({ word }) => {
-      // console.log(syllable);
-      // console.log('word', word);
       // linesText.push(word);
       textWords.push(word);
       // shareWords.push([syllables, dict[syllables].indexOf(word)]);
@@ -54,20 +51,18 @@ const getHaiku = (lineShape = [5, 7, 5]): Haiku => {
     textLines.push(textWords);
     // shareLines.push(shareWords);
   });
-  // console.log({textLines, shareLines});
+
   const formattedLines: string[] = [];
   textLines.forEach((line) => {
     const words = line.join(' ');
     formattedLines.push(words.charAt(0).toUpperCase() + words.slice(1));
   });
-  // console.log({ formattedLines });
-
 
   return formattedLines;
 };
 
 const getShareSlug = (haiku: Haiku): string => {
-  const compressed = zlib.deflateSync(haiku.toString()).toString('base64');
+  const compressed = zlib.deflateSync(haiku.join('\n')).toString('base64');
   const path = encodeURIComponent(compressed);
   // const url = (process.env.NODE_ENV === 'development') ? `http://localhost:3000/h/${path}` : `http://localhost:3000/h/${path}`;
   return path;
@@ -75,7 +70,6 @@ const getShareSlug = (haiku: Haiku): string => {
 
 const getHaikuFromShareSlug = (slug: string): Haiku => {
   const decompressed = zlib.inflateSync(Buffer.from(slug, 'base64')).toString();
-  // console.log('decomp', decompressed);
   return decompressed.split('\n');
 };
 

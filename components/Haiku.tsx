@@ -1,11 +1,11 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  Container, Grid, Button, Card, CardContent, Typography, Snackbar, IconButton,
+  Container, Grid, Button, Card, CardContent,
+  Link, Typography, Snackbar, IconButton,
 } from '@material-ui/core';
 
 import Alert from '@material-ui/lab/Alert';
-import { Twitter, Link } from '@material-ui/icons';
+import { Twitter, Link as LinkIcon } from '@material-ui/icons';
 import Header from './Header';
 
 import { getHaiku, getShareSlug } from '../generator/haiku';
@@ -17,6 +17,13 @@ interface HaikuPageProps {
 
 const HaikuPage = ({ haiku }: HaikuPageProps): JSX.Element => {
   const [alertOpen, setAlertOpen] = useState(false);
+  const [twitterShareUrl, setTwitterShareUrl] = useState<string>();
+
+  const getTwitterShareUrl = (haiku: Haiku): string => {
+    const shareUrl = `https://twitter.com/intent/tweet?hashtags=insecurepoetry&original_referer=${window.location.href}&ref_src=twsrc%5Etfw&related=insecurepoetry&text=${encodeURIComponent(haiku.join('\n'))}&tw_p=tweetbutton&url=${window.location.href}&via=insecurepoetry`;
+    return shareUrl;
+  };
+
   const handleClose = (event?: React.SyntheticEvent, reason?: string): void => {
     if (reason === 'clickaway') {
       return;
@@ -36,18 +43,17 @@ const HaikuPage = ({ haiku }: HaikuPageProps): JSX.Element => {
     setAlertOpen(true);
   };
 
-  const shareOnTwitter = (): void => { console.log('twit'); };
-
-  // const [haiku, setHaiku]: [string[], React.Dispatch<any>] = useState(incomingHaiku);
   const doHaiku = (): void => {
     const newHaiku = getHaiku();
-    // setHaiku(haiku);
-    const slug = getShareSlug(newHaiku); // .join('\n'));
+    const slug = getShareSlug(newHaiku);
     if (typeof window !== 'undefined') {
-      // console.log(window.location);
       window.location.replace(`/h/${slug}`);
     }
   };
+
+  useEffect(() => {
+    setTwitterShareUrl(getTwitterShareUrl(haiku));
+  });
 
   return (
     <Container maxWidth="md">
@@ -87,15 +93,20 @@ const HaikuPage = ({ haiku }: HaikuPageProps): JSX.Element => {
           <Typography>Share this:</Typography>
           <IconButton
             aria-label="share on Twitter"
-            onClick={shareOnTwitter}
           >
-            <Twitter />
+            <Link
+              color="inherit"
+              href={twitterShareUrl}
+            >
+              <Twitter />
+
+            </Link>
           </IconButton>
           <IconButton
             aria-label="copy share link"
             onClick={copyShareUrl}
           >
-            <Link />
+            <LinkIcon />
           </IconButton>
         </Grid>
 
