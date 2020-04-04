@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   Container, Grid, Button, Card, CardContent,
-  Link, Typography, Snackbar, IconButton,
+  Typography,
 } from '@material-ui/core';
-import Alert from '@material-ui/lab/Alert';
-import { Twitter, Link as LinkIcon } from '@material-ui/icons';
 import Router from 'next/router';
 
 import Header from './Header';
+import Footer from './Footer';
+import Share from './Share';
 
 import { getHaiku, getShareSlug } from '../generator/haiku';
 import type { Haiku } from '../generator/haiku';
@@ -17,42 +17,11 @@ interface HaikuPageProps {
 }
 
 const HaikuPage = ({ haiku }: HaikuPageProps): JSX.Element => {
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [twitterShareUrl, setTwitterShareUrl] = useState<string>();
-
-  const getTwitterShareUrl = (haiku: Haiku): string => {
-    const shareUrl = `https://twitter.com/intent/tweet?hashtags=insecurepoetry&original_referer=${window.location.href}&ref_src=twsrc%5Etfw&related=insecurepoetry&text=${encodeURIComponent(`${haiku.join('\n')}\n`)}&tw_p=tweetbutton&url=${window.location.href}&via=insecurepoetry`;
-    return shareUrl;
-  };
-
-  const handleClose = (event?: React.SyntheticEvent, reason?: string): void => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setAlertOpen(false);
-  };
-
-  const copyShareUrl = (): void => {
-    document.addEventListener('copy', (e) => {
-      if (e.clipboardData) {
-        e.clipboardData.setData('text/plain', window.location.href);
-        e.preventDefault();
-      }
-    });
-    document.execCommand('copy');
-    setAlertOpen(true);
-  };
-
   const doHaiku = (): void => {
     const newHaiku = getHaiku();
     const slug = getShareSlug(newHaiku);
     Router.push('/h/[slug]', `/h/${slug}`);
   };
-
-  useEffect(() => {
-    setTwitterShareUrl(getTwitterShareUrl(haiku));
-  });
 
   return (
     <Container maxWidth="md">
@@ -78,7 +47,7 @@ const HaikuPage = ({ haiku }: HaikuPageProps): JSX.Element => {
           )}
         </Grid>
 
-        <Grid item sm={4}>
+        <Grid item xs={12} sm={5}>
           <Button
             variant="contained"
             color="primary"
@@ -87,35 +56,13 @@ const HaikuPage = ({ haiku }: HaikuPageProps): JSX.Element => {
             Get a New Haiku
           </Button>
         </Grid>
-
-        <Grid item xs={12}>
-          <Typography>Share this:</Typography>
-          <IconButton
-            aria-label="share on Twitter"
-          >
-            <Link
-              color="inherit"
-              href={twitterShareUrl}
-            >
-              <Twitter />
-
-            </Link>
-          </IconButton>
-          <IconButton
-            aria-label="copy share link"
-            onClick={copyShareUrl}
-          >
-            <LinkIcon />
-          </IconButton>
+        <Grid item xs={12} sm={7}>
+          <Share haiku={haiku} />
         </Grid>
 
-      </Grid>
+        <Footer />
 
-      <Snackbar open={alertOpen} autoHideDuration={2000} onClose={handleClose}>
-        <Alert severity="info" onClose={handleClose}>
-          Copied to clipboard
-        </Alert>
-      </Snackbar>
+      </Grid>
 
     </Container>
   );
