@@ -24,7 +24,7 @@ const Share = ({ haiku }: SharePageProps): JSX.Element => {
   };
 
   const getTwitterShareUrl = (haiku: Haiku): string => {
-    const shareUrl = `https://twitter.com/intent/tweet?hashtags=insecurepoetry&original_referer=${window.location.href}&ref_src=twsrc%5Etfw&related=insecurepoetry&text=${encodeURIComponent(`${haiku.join('\n')}\n`)}&tw_p=tweetbutton&url=${window.location.href}&via=insecurepoetry`;
+    const shareUrl = `https://twitter.com/intent/tweet?hashtags=insecurepoetryclub&original_referer=${window.location.href}&ref_src=twsrc%5Etfw&related=insecurepoetry&text=${encodeURIComponent(`${haiku.join('\n')}\n`)}&tw_p=tweetbutton&url=${window.location.href}&via=insecurepoetry`;
     return shareUrl;
   };
 
