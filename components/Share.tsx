@@ -4,6 +4,7 @@ import {
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import { Twitter, Link as LinkIcon } from '@material-ui/icons';
+import ClipboardJS from 'clipboard';
 
 import type { Haiku } from '../generator/haiku';
 
@@ -28,19 +29,13 @@ const Share = ({ haiku }: SharePageProps): JSX.Element => {
     return shareUrl;
   };
 
-  const copyShareUrl = (): void => {
-    document.addEventListener('copy', (e) => {
-      if (e.clipboardData) {
-        e.clipboardData.setData('text/plain', window.location.href);
-        e.preventDefault();
-      }
-    });
-    document.execCommand('copy');
-    setAlertOpen(true);
-  };
-
   useEffect(() => {
     setTwitterShareUrl(getTwitterShareUrl(haiku));
+    const clipboard = new ClipboardJS('#copy-share-link');
+
+    clipboard.on('success', (e) => {
+      setAlertOpen(true);
+    });
   });
 
   return (
@@ -61,8 +56,10 @@ const Share = ({ haiku }: SharePageProps): JSX.Element => {
         </Link>
       </IconButton>
       <IconButton
+        id="copy-share-link"
+        data-clipboard-text={window.location.href}
         aria-label="copy share link"
-        onClick={copyShareUrl}
+        // onClick={copyShareUrl}
       >
         <LinkIcon />
       </IconButton>
