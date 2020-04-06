@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Grid, Typography, Snackbar, IconButton, Link,
+  Typography, Snackbar, IconButton, Link,
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import { Twitter, Link as LinkIcon } from '@material-ui/icons';
@@ -15,6 +15,7 @@ interface SharePageProps {
 const Share = ({ haiku }: SharePageProps): JSX.Element => {
   const [twitterShareUrl, setTwitterShareUrl] = useState<string>();
   const [alertOpen, setAlertOpen] = useState(false);
+  const [shareUrl, setShareUrl] = useState<string>();
 
   const handleClose = (event?: React.SyntheticEvent, reason?: string): void => {
     if (reason === 'clickaway') {
@@ -24,16 +25,14 @@ const Share = ({ haiku }: SharePageProps): JSX.Element => {
     setAlertOpen(false);
   };
 
-  const getTwitterShareUrl = (haiku: Haiku): string => {
-    const shareUrl = `https://twitter.com/intent/tweet?hashtags=insecurepoetryclub&original_referer=${window.location.href}&ref_src=twsrc%5Etfw&related=insecurepoetry&text=${encodeURIComponent(`${haiku.join('\n')}\n`)}&tw_p=tweetbutton&url=${window.location.href}&via=insecurepoetry`;
-    return shareUrl;
-  };
+  const getTwitterShareUrl = (haiku: Haiku): string => `https://twitter.com/intent/tweet?hashtags=insecurepoetryclub&original_referer=${window.location.href}&ref_src=twsrc%5Etfw&related=insecurepoetry&text=${encodeURIComponent(`${haiku.join('\n')}\n`)}&tw_p=tweetbutton&url=${window.location.href}&via=insecurepoetry`;
 
   useEffect(() => {
+    setShareUrl(window.location.href);
     setTwitterShareUrl(getTwitterShareUrl(haiku));
     const clipboard = new ClipboardJS('#copy-share-link');
 
-    clipboard.on('success', (e) => {
+    clipboard.on('success', () => {
       setAlertOpen(true);
     });
   });
@@ -57,9 +56,8 @@ const Share = ({ haiku }: SharePageProps): JSX.Element => {
       </IconButton>
       <IconButton
         id="copy-share-link"
-        data-clipboard-text={window.location.href}
         aria-label="copy share link"
-        // onClick={copyShareUrl}
+        data-clipboard-text={shareUrl}
       >
         <LinkIcon />
       </IconButton>
